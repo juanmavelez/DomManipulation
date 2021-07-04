@@ -26,6 +26,9 @@ async function fetchData() {
     const title = document.createElement('h2');
     title.textContent = item.name;
     title.className = 'text-xl text-red-600';
+    title.addEventListener('click', () => {
+      window.alert('hola');
+    });
 
     const price = document.createElement('div');
     price.textContent = formatPrice(item.price);
