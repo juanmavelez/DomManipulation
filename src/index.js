@@ -2,6 +2,7 @@
  * This file is just a silly example to show everything working in the browser.
  * When you're ready to start on your site, clear the file. Happy hacking!
  **/
+import { registerImage } from './lazy';
 
 const url = 'https://randomfox.ca/floof/';
 
@@ -16,7 +17,7 @@ async function createImageNode() {
   const picturesJson = await pictures.json();
 
   const img = document.createElement('img');
-  img.src = picturesJson.image;
+  img.dataset.src = picturesJson.image;
   img.className = 'mx-auto';
   img.width = '320';
 
@@ -26,7 +27,10 @@ async function createImageNode() {
 
 const addImage = () => {
   const newImage = createImageNode();
-  newImage.then((arg) => father.append(arg));
+  newImage.then((arg) => {
+    father.append(arg);
+    registerImage(arg);
+  });
 };
 
 addButton.addEventListener('click', addImage);
