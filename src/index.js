@@ -3,41 +3,31 @@
  * When you're ready to start on your site, clear the file. Happy hacking!
  **/
 
-const baseUrl = 'http://platzi-avo.vercel.app';
+const url = 'https://randomfox.ca/floof/';
 
-const formatPrice = (price) => {
-  return new window.Intl.NumberFormat('en-EN', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(price);
-};
+const father = document.getElementById('image');
+const addButton = document.querySelector('button');
 
-async function fetchData() {
-  const res = await window.fetch(`${baseUrl}/api/avo`);
-  const resJson = await res.json();
-  const allItems = [];
-  console.log(resJson);
+async function createImageNode() {
+  const container = document.createElement('div');
+  container.className = 'p-4';
 
-  resJson.data.forEach((item) => {
-    const container = document.createElement('div');
-    const img = document.createElement('img');
-    img.src = `${baseUrl}${item.image}`;
+  const pictures = await window.fetch(url);
+  const picturesJson = await pictures.json();
 
-    const title = document.createElement('h2');
-    title.textContent = item.name;
-    title.className = 'text-xl text-red-600';
-    title.addEventListener('click', () => {
-      window.alert('hola');
-    });
+  const img = document.createElement('img');
+  img.src = picturesJson.image;
+  img.className = 'mx-auto';
+  img.width = '320';
 
-    const price = document.createElement('div');
-    price.textContent = formatPrice(item.price);
-
-    container.append(img, title, price);
-    allItems.push(container);
-  });
-
-  document.body.append(...allItems);
+  container.appendChild(img);
+  return container;
 }
 
-fetchData();
+const addImage = () => {
+  const newImage = createImageNode();
+  newImage.then((arg) => father.append(arg));
+};
+
+addButton.addEventListener('click', addImage);
+father.append(await createImageNode());
